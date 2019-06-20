@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import Form from './Form';
+import ListContainer from './ListContainer';
 import './App.css';
 
+const initList = [{ id: 1, name: 'kolya', age: 12 }, { id: 2, name: 'roma', age: 20 }];
+
 function App() {
+  const [list, setList] = React.useState(initList);
+  const [selectedItem, setSelectedItem] = React.useState({});
+
+  const handleSubmit = React.useCallback((val) => setList(list => list.map((e) => e.id === val.id ? val : e)), []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form onSubmit={handleSubmit} item={selectedItem} />
+      <ListContainer list={list} onSelect={setSelectedItem} />
     </div>
   );
 }
